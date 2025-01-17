@@ -5,6 +5,8 @@ const c = canvas.getContext("2d");
 canvas.width = 800; //window.innerWidth;
 canvas.height = 600; //window.innerHeight;
 
+const scoreDisplay = document.getElementById("score");
+let score = 0;
 let isPaused = false;
 const SPEED = 5;
 const ROTATIONAL_SPEED = 0.05;
@@ -48,23 +50,29 @@ class Sprite {
     }
   
     update() {
-      this.draw();
+      if(this.alive){
+        this.draw();
   
-      this.position.x += this.velocity.x;
-       this.position.y += this.velocity.y;
-    //   // console.log(this.position);
-  
-      ///borders
-      if (this.position.y < 10) {
-        //console.log("top bounds");
-        this.position.y = 15;
-      } else if (this.position.x < 10) {
-        this.position.x = 15;
-      } else if (this.position.y + this.height > canvas.height - 10) {
-        this.position.y = canvas.height - this.height - 15;
-      } else if (this.position.x + this.width > canvas.width - 10) {
-        this.position.x = canvas.width - this.width - 15;
+        this.position.x += this.velocity.x;
+         this.position.y += this.velocity.y;
+      //   // console.log(this.position);
+        
+        ///borders
+        if (this.position.y < 10) {
+          //console.log("top bounds");
+          this.position.y = 15;
+        } else if (this.position.x < 10) {
+          this.position.x = 15;
+        } else if (this.position.y + this.height > canvas.height - 10) {
+          this.position.y = canvas.height - this.height - 15;
+        } else if (this.position.x + this.width > canvas.width - 10) {
+          this.position.x = canvas.width - this.width - 15;
+        }
       }
+      else{
+        this.position = {x: -100, y: -100};
+      }
+      
     }
   }
   
@@ -72,7 +80,7 @@ class Sprite {
     position: { x: canvas.width / 2, y: canvas.height / 2 },
     velocity: { x: 0, y: 0 },
     dimensions: {height: 30, width: 50},
-    color: "#0095DD",
+    color: "chocolate",
   });
 
   const pickup = new Sprite({
@@ -81,6 +89,14 @@ class Sprite {
     dimensions: {height: 30, width: 30},
     color: "gray",
   });
+
+  const environ = new Sprite({
+    position: { x: 300, y: 400 },
+    velocity: { x: 0, y: 0 },
+    dimensions: {height: 100, width: 100},
+    color: "goldenrod",
+  });
+
   
   function rectangularCollision({ rectangle, rectangle2 }) {
     //console.log(rectangle.height)
@@ -103,12 +119,16 @@ class Sprite {
     //console.log("animating");
     player.update();
     pickup.update();
+    environ.update();
+    scoreDisplay.innerText = `Gold: $${score}`
 
     if(rectangularCollision({rectangle: player, rectangle2: pickup})){
        pickup.alive = false;
-       console.log(pickup);
+       score  += 1;
+       //console.log(pickup);
     }
 
+  
     player.velocity = { x: 0, y: 0 };
     //controll managment
     if (keys.down.pressed) {
@@ -129,6 +149,13 @@ class Sprite {
     } else {
       player.velocity.x *= FRICTION;
     }
+
+    if(rectangularCollision({rectangle: player, rectangle2: environ})){
+        //console.log("collide")
+         player.velocity.x = -(player.velocity.x + 1);
+        player.velocity.y = -(player.velocity.y + 1);
+      }
+ 
 }
 
 animate();
