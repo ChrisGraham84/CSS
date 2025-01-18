@@ -37,7 +37,7 @@ const keys = {
     color: "chocolate",
   });
 
-  const pickup = new Sprite({
+  let pickup = new Sprite({
     position: { x: 100, y: 100 },
     velocity: { x: 0, y: 0 },
     dimensions: {height: 30, width: 30},
@@ -51,7 +51,32 @@ const keys = {
     color: "goldenrod",
   });
 
+  const environ2 = new Sprite({
+    position: { x: 500, y: 100 },
+    velocity: { x: 0, y: 0 },
+    dimensions: {height: 100, width: 100},
+    color: "goldenrod",
+  });
 
+  
+  function GeneratePickup(){
+    let x,y;
+    let _x = Math.random() * canvas.width;
+    let _y = Math.random() * canvas.height;
+
+    while((_x == environ.position.x && _y == environ.position.y) || (_x == environ2.position.x && _y == environ2.position.y)){
+      _x = Math.random() * canvas.width;
+      _y = Math.random() * canvas.height;
+    }
+
+     pickup = new Sprite({
+      position: { x: _x, y: _x},
+      velocity: { x: 0, y: 0 },
+      dimensions: {height: 30, width: 30},
+      color: "gray",
+    });
+
+  }
 
   function animate() {
     if (!isPaused) {
@@ -64,11 +89,14 @@ const keys = {
     player.update();
     pickup.update();
     environ.update();
+    environ2.update();
     scoreDisplay.innerText = `Gold: $${score}`
 
+    //Pickup Collision
     if(rectangularCollision({rectangle: player, rectangle2: pickup})){
        pickup.alive = false;
        score  += 1;
+       GeneratePickup();
        //console.log(pickup);
     }
 
@@ -80,8 +108,6 @@ const keys = {
     } else if (keys.up.pressed) {
       //console.log("pressed up");
       player.velocity.y -= SPEED;
-      // player.velocity.x = Math.cos(player.rotation) * SPEED;
-      //player.velocity.y = Math.sin(player.rotation) * SPEED;
     } else {
       player.velocity.y *= FRICTION;
     }
@@ -94,11 +120,17 @@ const keys = {
       player.velocity.x *= FRICTION;
     }
 
+    //Environment Collision
     if(rectangularCollision({rectangle: player, rectangle2: environ})){
         //console.log("collide")
          player.velocity.x = -(player.velocity.x + 1);
         player.velocity.y = -(player.velocity.y + 1);
       }
+    if(rectangularCollision({rectangle: player, rectangle2: environ2})){
+      //console.log("collide")
+        player.velocity.x = -(player.velocity.x + 1);
+      player.velocity.y = -(player.velocity.y + 1);
+    }
  
 }
 
@@ -107,37 +139,6 @@ animate();
 window.addEventListener("keydown", (ev) => {
     //console.log(ev.key);
     switch (ev.key) {
-      case "p":
-    //     //keys.w.pressed = true;
-    //     //player.lastKey = "w";
-    //     isPaused = !isPaused;
-    //     if (!isPaused) {
-    //       gameMenu.style.display = "none";
-    //       animate();
-    //      // decreaseTimer();
-    //     } else {
-    //       gameMenu.style.display = "block";
-    //       gameMenu.innerHTML = "PAUSED V0.1";
-    //     };
-    //     break;
-    //   case " ":
-    //     if (projectiles.length < 5) {
-    //       projectiles.push(
-    //         new Projectile({
-    //           position: {
-    //             x: player.position.x + 25,
-    //             y: player.position.y - 20,
-    //           },
-    //           velocity: {
-    //             x: 0,
-    //             y: -PROJECT_SPEED,
-    //           },
-    //         })
-    //       );
-    //     }
-    //     //console.log(projectiles);
-        break;
-  
       //player keys
       case "ArrowRight":
         keys.right.pressed = true;
