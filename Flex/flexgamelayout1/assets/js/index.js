@@ -8,7 +8,7 @@ canvas.height = 600; //window.innerHeight;
 const scoreDisplay = document.getElementById("score");
 let score = 0;
 let isPaused = false;
-const SPEED = 5;
+const SPEED = 3;
 const ROTATIONAL_SPEED = 0.05;
 const FRICTION = 0.9;
 const PROJECT_SPEED = 3;
@@ -27,54 +27,8 @@ const keys = {
     down: { pressed: false },
   };
 
-class Sprite {
-    constructor({ position, velocity, dimensions, color }) {
-      this.position = position;
-      this.velocity = velocity;
-      this.color = color
-        this.height = dimensions.height;
-        this.width = dimensions.width;
-        this.alive = true;
-      this.hp = 3;
-    }
-     
-    draw() {
-       
-       if(this.alive){
-        c.beginPath();
-        c.rect(this.position.x, this.position.y , this.width, this.height);
-        c.fillStyle = this.color;
-        c.fill();
-        c.closePath();
-       } 
-    }
   
-    update() {
-      if(this.alive){
-        this.draw();
-  
-        this.position.x += this.velocity.x;
-         this.position.y += this.velocity.y;
-      //   // console.log(this.position);
-        
-        ///borders
-        if (this.position.y < 10) {
-          //console.log("top bounds");
-          this.position.y = 15;
-        } else if (this.position.x < 10) {
-          this.position.x = 15;
-        } else if (this.position.y + this.height > canvas.height - 10) {
-          this.position.y = canvas.height - this.height - 15;
-        } else if (this.position.x + this.width > canvas.width - 10) {
-          this.position.x = canvas.width - this.width - 15;
-        }
-      }
-      else{
-        this.position = {x: -100, y: -100};
-      }
-      
-    }
-  }
+
   
   const player = new Sprite({
     position: { x: canvas.width / 2, y: canvas.height / 2 },
@@ -97,17 +51,7 @@ class Sprite {
     color: "goldenrod",
   });
 
-  
-  function rectangularCollision({ rectangle, rectangle2 }) {
-    //console.log(rectangle.height)
-    return (
-      rectangle.position.x + rectangle.width >= rectangle2.position.x &&
-      rectangle.position.x <= rectangle2.position.x + rectangle2.width &&
-      rectangle.position.y + rectangle.height >= rectangle2.position.y &&
-      rectangle.position.y <= rectangle2.position.y + rectangle2.height
-    );
-  }
-  
+
 
   function animate() {
     if (!isPaused) {
