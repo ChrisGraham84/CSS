@@ -30,7 +30,7 @@ const keys = {
   
 
   
-  const player = new Sprite({
+  const player = new Player({
     position: { x: canvas.width / 2, y: canvas.height / 2 },
     velocity: { x: 0, y: 0 },
     dimensions: {height: 30, width: 50},
@@ -45,24 +45,24 @@ const keys = {
   });
 
   const environ = new Sprite({
-    position: { x: 300, y: 400 },
+    position: { x: 200, y: 400 },
     velocity: { x: 0, y: 0 },
-    dimensions: {height: 100, width: 100},
+    dimensions: {height: 100, width: 500},
     color: "goldenrod",
   });
 
   const environ2 = new Sprite({
-    position: { x: 500, y: 100 },
+    position: { x: 500, y: 0 },
     velocity: { x: 0, y: 0 },
-    dimensions: {height: 100, width: 100},
+    dimensions: {height: 300, width: 100},
     color: "goldenrod",
   });
 
   
   function GeneratePickup(){
     let x,y;
-    let _x = Math.random() * canvas.width;
-    let _y = Math.random() * canvas.height;
+    let _x = Math.random() * canvas.width /2;
+    let _y = Math.random() * canvas.height /2;
 
     while((_x == environ.position.x && _y == environ.position.y) || (_x == environ2.position.x && _y == environ2.position.y)){
       _x = Math.random() * canvas.width;
