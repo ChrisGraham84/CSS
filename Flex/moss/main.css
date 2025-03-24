@@ -71,16 +71,35 @@ body {
 .portfolioNav ul li{
     margin: 0px 2px 0px 0px;
     width: 100px;
-    background-color: purple;
     border-radius:  25px 25px 0px 0px;
     text-align: center;
     padding: 10px;
 }
 .portfolioContainer{
+    display: none;
     background-color: blue;
     padding: 20px;
     /* margin: 50px; */
     height: 80%;
     width: 90%;
     border-top-left-radius: 0px;
+}
+.current{
+    display: block;
+}
+
+.purple{
+ background-color: purple;
+}
+.blue{
+    background-color: blue;
+}
+.green{
+    background-color: green;
+}
+.red{
+    background-color: red;
+}
+.pink{
+    background-color: palevioletred;
 }
